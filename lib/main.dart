@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'screens/transferencia/lista.dart';
 import 'package:intl/intl.dart';
+import 'db/app_database.dart';
 
-void main() => runApp(BankApp());
+//void main() => runApp(BankApp());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //await testarBanco();
+  runApp(BankApp());
+}
 
 class BankApp extends StatelessWidget {
   const BankApp({super.key});
@@ -10,16 +18,13 @@ class BankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Intl.defaultLocale = "pt_BR";
-    return MaterialApp(      
-
+    return MaterialApp(
       home: ListaTransferencias(),
 
       theme: ThemeData(
         useMaterial3: true,
 
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
 
         primaryColor: Colors.green.shade900,
 
@@ -29,7 +34,7 @@ class BankApp extends StatelessWidget {
           titleTextStyle: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
-          )
+          ),
         ),
 
         floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -51,9 +56,8 @@ class BankApp extends StatelessWidget {
 
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(),
-        )
+        ),
       ),
-
     );
   }
 }

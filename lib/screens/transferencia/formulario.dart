@@ -1,3 +1,4 @@
+import 'package:bank2/db/app_database.dart';
 import 'package:flutter/material.dart';
 import '../../models/transferencia.dart';
 import '../../components/editor.dart';
@@ -73,8 +74,11 @@ void _criaTransferencia(
 
   if (numeroConta != null && valor != null) {
     final transferenciaCriada = Transferencia(valor, numeroConta);
-    debugPrint("Criando Transferência");
-    debugPrint("$transferenciaCriada");
-    Navigator.pop(context, transferenciaCriada);
+
+    salvarTransferencia(transferenciaCriada).then((id) {
+      debugPrint('Transferência salva com id: $id');
+
+      Navigator.pop(context, transferenciaCriada);
+    });
   }
 }

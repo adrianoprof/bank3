@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/transferencia.dart';
+import 'dart:io';
 
 Future<Database> getDatabase() async{
   final String path = join(await getDatabasesPath(), 'bank.db');
@@ -42,5 +43,40 @@ Future <List<Transferencia>> buscarTransferencias() async{
     );
 
   });
+
+}
+
+Future<void> testarBanco() async{
+  final String path = join(await getDatabasesPath(), 'bank.db');
+  final File arquivoBanco = File(path);
+
+  //await deleteDatabase(path);
+
+  final bool existe = await arquivoBanco.exists();
+
+  if(existe){
+    print("****Banco de Dados encontrado: $path");
+
+    final Database db = await openDatabase(path);
+
+    final List<Map<String, dynamic>> tabelas = 
+      await db.rawQuery("select name from sqlite_master where type='table'");
+
+    if(tabelas.isNotEmpty){
+      print("****Tabelas Encontradas: ");
+      for(var tabela in tabelas){
+        print('- ${tabela['name']}');
+
+      }      
+    }
+    else{
+      print('****Nenhuma tabela encontrada no banco!');
+    }
+
+    await db.close();
+  }
+  else{
+    print("XXXX - O arquivo do banco de dados não foi encontrado em: $path");
+  }
 
 }
