@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'screens/transferencia/lista.dart';
 import 'package:intl/intl.dart';
 import 'db/app_database.dart';
+import 'screens/dashboard.dart';
 
 //void main() => runApp(BankApp());
 
@@ -19,7 +19,7 @@ class BankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Intl.defaultLocale = "pt_BR";
     return MaterialApp(
-      home: ListaTransferencias(),
+      home: const Dashboard(),
 
       theme: ThemeData(
         useMaterial3: true,
