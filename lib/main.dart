@@ -19,6 +19,7 @@ class BankApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Intl.defaultLocale = "pt_BR";
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: const Dashboard(),
 
       theme: ThemeData(

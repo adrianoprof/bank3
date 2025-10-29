@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/transferencia.dart';
+import '../models/contato.dart';
 import 'dart:io';
 
 Future<Database> getDatabase() async{
@@ -8,14 +9,24 @@ Future<Database> getDatabase() async{
 
   return openDatabase(
     path,
+    version: 2,
     onCreate: (db, version) async{
-      await db.execute('CREATE TABLE transferencias('          
-          'id INTEGER PRIMARY KEY AUTOINCREMENT, '          
-          'valor REAL, '          
-          'numero_conta INTEGER)'
-      );
+      await db.execute('''
+        CREATE TABLE transferencias(          
+          id INTEGER PRIMARY KEY AUTOINCREMENT,          
+          valor REAL,         
+          numero_conta INTEGER)
+      ''');
+
+      await db.execute('''
+        create table contatos(
+          id integer primary key autoincrement,
+          nome text,
+          numero_conta integer
+        )
+      ''');
     },
-    version: 1,
+    
   );
 }
 
@@ -45,6 +56,32 @@ Future <List<Transferencia>> buscarTransferencias() async{
   });
 
 }
+
+Future<int> salvarContato(Contato contato) async {
+  final Database db = await getDatabase();
+
+  return db.insert('contatos', contato.toMap());
+
+}
+
+Future<List<Contato>> buscarContatos() async {
+  final Database db = await getDatabase();
+
+  final List<Map<String, dynamic>> resultado = await db.query('contatos');
+
+  return List.generate(resultado.length, (i){
+    return Contato(
+      id: resultado[i]['id'],
+      nome: resultado[i]['nome'],
+      numeroConta: resultado[i]['numero_conta'],
+    );
+
+  });
+
+
+}
+
+
 
 Future<void> testarBanco() async{
   final String path = join(await getDatabasesPath(), 'bank.db');

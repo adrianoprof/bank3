@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'contatos/lista_contatos.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
   @override
-  Widget build(BuildContext) {
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Dashboard")),
+      appBar: AppBar(title: Text("Dasboard")),
 
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -15,26 +16,46 @@ class Dashboard extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.all(8.0),
-            child: Image.asset('images/bytebank_logo.png'),
+            child: Image.asset("images/bytebank_logo.png"),
           ),
 
           Padding(
             padding: EdgeInsets.all(8.0),
-
             child: Container(
-              color: Colors.green.shade900,
+              padding: EdgeInsets.all(8.0),
+
               height: 100,
               width: 150,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.people, color: Colors.white, size: 32),
-                  SizedBox(height: 8),
-                  Text(
-                    "Contatos",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+
+              color: Theme.of(context).primaryColor,
+              child: Material(
+                // Importante para que o Container tenha o fundo desejado
+                color: const Color.fromARGB(0, 0, 0, 0),
+
+                child: InkWell(
+                  onTap: () {
+                    // Navegação para a lista de contatos
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ListaContatos(),
+                      ),
+                    );
+                  },
+
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(Icons.people, color: Colors.white, size: 24),
+
+                      Text(
+                        'Contacts',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
